@@ -1,0 +1,18 @@
+version: '3'
+
+vars:
+  SPEC_URL: https://raw.githubusercontent.com/grantsy/grantsy/main/openapi.json
+
+tasks:
+  generate:
+    desc: Download OpenAPI spec and generate Go SDK
+    cmds:
+      - curl -sSfL {{.SPEC_URL}} -o openapi.json
+      - defer: rm -f openapi.json
+      - go tool oapi-codegen --config oapi-codegen.yaml openapi.json
+      - go mod tidy
+
+  test:
+    desc: Run integration tests
+    cmds:
+      - go test -v -count=1 ./...
