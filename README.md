@@ -100,6 +100,24 @@ for _, f := range sub.Features {
 }
 ```
 
+### Raw Subscription Data
+
+Access provider-specific subscription details via the `Raw` field:
+
+```go
+if sub.HasSubscription && sub.Raw.Provider == grantsy.ProviderLemonSqueezy {
+	ls, err := sub.Raw.Data.AsLemonSqueezySubscriptionDTO()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("LemonSqueezy ID:", ls.ID)
+	fmt.Println("Product:", ls.ProductName)
+	fmt.Println("Status:", ls.StatusFormatted)
+	fmt.Println("Card:", ls.CardBrand, ls.CardLastFour)
+}
+```
+
 ## Regenerating the SDK
 
 Requires [Task](https://taskfile.dev):

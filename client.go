@@ -58,6 +58,22 @@ type GetSubscriptionParams = api.GetV1SubscriptionParams
 // Subscription is the result of getting a user's subscription.
 type Subscription = api.SubscriptionResponse
 
+// RawSubscription contains the raw provider-specific subscription data.
+type RawSubscription = api.RawSubscription
+
+// RawSubscriptionProvider identifies the subscription provider.
+type RawSubscriptionProvider = api.RawSubscriptionProvider
+
+// ProviderSubscription is a union type holding provider-specific subscription data.
+// Use AsLemonSqueezySubscriptionDTO() to extract LemonSqueezy-specific fields.
+type ProviderSubscription = api.ProviderSubscription
+
+// LemonSqueezySubscription contains LemonSqueezy-specific subscription fields.
+type LemonSqueezySubscription = api.LemonSqueezySubscriptionDTO
+
+// Subscription provider constants.
+const ProviderLemonSqueezy = api.Lemonsqueezy
+
 // ClientOption allows setting custom parameters during construction.
 type ClientOption = api.ClientOption
 

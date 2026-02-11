@@ -27,6 +27,11 @@ const (
 	HTTPSGrantsyExampleErrorsValidationFailed ProblemDetailsType = "https://grantsy.example/errors/validation-failed"
 )
 
+// Defines values for RawSubscriptionProvider.
+const (
+	Lemonsqueezy RawSubscriptionProvider = "lemonsqueezy"
+)
+
 // CheckResult defines model for CheckResult.
 type CheckResult struct {
 	Allowed bool   `json:"allowed,omitempty"`
@@ -69,6 +74,66 @@ type FeaturesResponse struct {
 type FieldError struct {
 	Field   string `json:"field,omitempty"`
 	Message string `json:"message,omitempty"`
+}
+
+// LemonSqueezySubscriptionDTO defines model for LemonSqueezySubscriptionDTO.
+type LemonSqueezySubscriptionDTO struct {
+	// BillingAnchor Day of month for billing
+	BillingAnchor int `json:"billing_anchor,omitempty"`
+
+	// Cancelled Whether the subscription has been cancelled
+	Cancelled bool `json:"cancelled,omitempty"`
+
+	// CardBrand Payment card brand
+	CardBrand string `json:"card_brand,omitempty"`
+
+	// CardLastFour Last four digits of payment card
+	CardLastFour string `json:"card_last_four,omitempty"`
+
+	// CreatedAt Unix timestamp when subscription was created
+	CreatedAt int64 `json:"created_at,omitempty"`
+
+	// CustomerID LemonSqueezy customer ID
+	CustomerID int `json:"customer_id,omitempty"`
+
+	// EndsAt Unix timestamp when subscription ends
+	EndsAt int `json:"ends_at"`
+
+	// ID LemonSqueezy subscription ID
+	ID int `json:"id,omitempty"`
+
+	// OrderID LemonSqueezy order ID
+	OrderID int `json:"order_id,omitempty"`
+
+	// ProductID LemonSqueezy product ID
+	ProductID int `json:"product_id,omitempty"`
+
+	// ProductName Product display name
+	ProductName string `json:"product_name,omitempty"`
+
+	// RenewsAt Unix timestamp when subscription renews
+	RenewsAt int64 `json:"renews_at,omitempty"`
+
+	// Status Subscription status
+	Status string `json:"status,omitempty"`
+
+	// StatusFormatted Human-readable subscription status
+	StatusFormatted string `json:"status_formatted,omitempty"`
+
+	// SubscriptionItemID LemonSqueezy subscription item ID
+	SubscriptionItemID int `json:"subscription_item_id,omitempty"`
+
+	// TrialEndsAt Unix timestamp when trial ends
+	TrialEndsAt int `json:"trial_ends_at"`
+
+	// UpdatedAt Unix timestamp when subscription was last updated
+	UpdatedAt int64 `json:"updated_at,omitempty"`
+
+	// VariantID LemonSqueezy variant ID
+	VariantID int `json:"variant_id,omitempty"`
+
+	// VariantName Variant display name
+	VariantName string `json:"variant_name,omitempty"`
 }
 
 // Meta defines model for Meta.
@@ -115,6 +180,22 @@ type ProblemDetails struct {
 // ProblemDetailsType defines model for ProblemDetails.Type.
 type ProblemDetailsType string
 
+// ProviderSubscription defines model for ProviderSubscription.
+type ProviderSubscription struct {
+	union json.RawMessage
+}
+
+// RawSubscription defines model for RawSubscription.
+type RawSubscription struct {
+	Data ProviderSubscription `json:"data,omitempty"`
+
+	// Provider Provider identifier
+	Provider RawSubscriptionProvider `json:"provider,omitempty"`
+}
+
+// RawSubscriptionProvider Provider identifier
+type RawSubscriptionProvider string
+
 // SubscriptionResponse defines model for SubscriptionResponse.
 type SubscriptionResponse struct {
 	// Cancelled Whether the subscription has been cancelled
@@ -127,7 +208,8 @@ type SubscriptionResponse struct {
 	HasSubscription bool `json:"has_subscription,omitempty"`
 
 	// Plan The user's current plan ID
-	Plan string `json:"plan,omitempty"`
+	Plan string          `json:"plan,omitempty"`
+	Raw  RawSubscription `json:"raw,omitempty"`
 
 	// RenewsAt Unix timestamp when subscription renews
 	RenewsAt int `json:"renews_at"`
@@ -197,6 +279,42 @@ type GetV1PlansParams struct {
 type GetV1SubscriptionParams struct {
 	// UserID User ID to get subscription for
 	UserID string `form:"user_id,omitempty" json:"user_id,omitempty"`
+}
+
+// AsLemonSqueezySubscriptionDTO returns the union data inside the ProviderSubscription as a LemonSqueezySubscriptionDTO
+func (t ProviderSubscription) AsLemonSqueezySubscriptionDTO() (LemonSqueezySubscriptionDTO, error) {
+	var body LemonSqueezySubscriptionDTO
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromLemonSqueezySubscriptionDTO overwrites any union data inside the ProviderSubscription as the provided LemonSqueezySubscriptionDTO
+func (t *ProviderSubscription) FromLemonSqueezySubscriptionDTO(v LemonSqueezySubscriptionDTO) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeLemonSqueezySubscriptionDTO performs a merge with any union data inside the ProviderSubscription, using the provided LemonSqueezySubscriptionDTO
+func (t *ProviderSubscription) MergeLemonSqueezySubscriptionDTO(v LemonSqueezySubscriptionDTO) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ProviderSubscription) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ProviderSubscription) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
 }
 
 // RequestEditorFn  is the function signature for the RequestEditor callback function

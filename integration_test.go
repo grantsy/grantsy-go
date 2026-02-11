@@ -248,6 +248,14 @@ func TestIntegration(t *testing.T) {
 		assert.Equal(t, true, result.HasSubscription)
 		assert.Equal(t, "active", result.Status)
 		assert.Equal(t, "pro", result.Plan)
+
+		assert.Equal(t, grantsy.ProviderLemonSqueezy, result.Raw.Provider)
+		lsData, err := result.Raw.Data.AsLemonSqueezySubscriptionDTO()
+		require.NoError(t, err)
+		assert.Equal(t, "active", lsData.Status)
+		assert.Equal(t, "Active", lsData.StatusFormatted)
+		assert.Equal(t, 12345, lsData.ProductID)
+		assert.Equal(t, "Pro", lsData.ProductName)
 	})
 
 	t.Run("check feature access for subscribed user", func(t *testing.T) {
