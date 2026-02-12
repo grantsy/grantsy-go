@@ -120,7 +120,10 @@ func startGrantsy(t *testing.T) (*grantsy.Client, string) {
 	seedDB(t, dbPath)
 
 	// Create a Docker volume and seed it with the DB file via a busybox container.
-	dockerClient, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
+	dockerClient, err := client.NewClientWithOpts(
+		client.FromEnv,
+		client.WithAPIVersionNegotiation(),
+	)
 	require.NoError(t, err)
 
 	vol, err := dockerClient.VolumeCreate(ctx, volume.CreateOptions{})
@@ -145,7 +148,10 @@ func startGrantsy(t *testing.T) (*grantsy.Client, string) {
 		},
 	)
 	require.NoError(t, err)
-	require.NoError(t, seedCtr.CopyFileToContainer(ctx, dbPath, "/data/grantsy.db", 0666))
+	require.NoError(
+		t,
+		seedCtr.CopyFileToContainer(ctx, dbPath, "/data/grantsy.db", 0666),
+	)
 	_, _, err = seedCtr.Exec(ctx, []string{"chown", "-R", "65534:65534", "/data"})
 	require.NoError(t, err)
 	require.NoError(t, seedCtr.Terminate(ctx))
@@ -154,7 +160,8 @@ func startGrantsy(t *testing.T) (*grantsy.Client, string) {
 		ctx,
 		testcontainers.GenericContainerRequest{
 			ContainerRequest: testcontainers.ContainerRequest{
-				Image:        "ghcr.io/grantsy/grantsy:main",
+				Image:           "ghcr.io/grantsy/grantsy:main",
+				AlwaysPullImage: true,
 				ExposedPorts: []string{"8080/tcp"},
 				HostConfigModifier: func(hc *container.HostConfig) {
 					hc.Mounts = append(hc.Mounts, mount.Mount{
@@ -274,7 +281,11 @@ func TestIntegration(t *testing.T) {
 		})
 		require.NoError(t, err)
 		assert.Equal(t, "pro", result.Plan)
-		assert.ElementsMatch(t, []string{"dashboard", "api", "sso"}, result.Features)
+		assert.ElementsMatch(
+			t,
+			[]string{"dashboard", "api", "sso"},
+			result.Features,
+		)
 	})
 
 	t.Run("get subscription for user without subscription", func(t *testing.T) {
@@ -283,6 +294,8 @@ func TestIntegration(t *testing.T) {
 		})
 		require.NoError(t, err)
 		assert.Equal(t, false, result.HasSubscription)
+		assert.Equal(t, "free", result.Plan)
+		assert.Equal(t, []string{"dashboard"}, result.Features)
 	})
 
 	t.Run("unauthorized with wrong api key", func(t *testing.T) {
@@ -376,6 +389,10 @@ func TestIntegration(t *testing.T) {
 			Feature: "dashboard",
 		})
 		require.Error(t, err)
-		assert.Contains(t, err.Error(), "grantsy: 401 Unauthorized: Invalid API key")
+		assert.Contains(
+			t,
+			err.Error(),
+			"grantsy: 401 Unauthorized: Invalid API key",
+		)
 	})
 }
