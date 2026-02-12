@@ -7,7 +7,7 @@ tasks:
   generate:
     desc: Download OpenAPI spec and generate Go SDK
     cmds:
-      - curl -sSfL {{.SPEC_URL}} -o openapi.json
+      - "curl -sSfL -H \"Cache-Control: no-cache\" {{.SPEC_URL}} -o openapi.json"
       - defer: rm -f openapi.json
       - go tool oapi-codegen --config oapi-codegen.yaml openapi.json
       - go mod tidy

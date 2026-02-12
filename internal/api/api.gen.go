@@ -201,6 +201,9 @@ type SubscriptionResponse struct {
 	// Cancelled Whether the subscription has been cancelled
 	Cancelled bool `json:"cancelled,omitempty"`
 
+	// EndsAt Unix timestamp when subscription ends (if cancelled)
+	EndsAt int `json:"ends_at"`
+
 	// Features List of feature IDs available to the user
 	Features []string `json:"features"`
 

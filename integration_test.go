@@ -255,6 +255,7 @@ func TestIntegration(t *testing.T) {
 		assert.Equal(t, true, result.HasSubscription)
 		assert.Equal(t, "active", result.Status)
 		assert.Equal(t, "pro", result.Plan)
+		assert.Equal(t, 0, result.EndsAt)
 
 		assert.Equal(t, grantsy.ProviderLemonSqueezy, result.Raw.Provider)
 		lsData, err := result.Raw.Data.AsLemonSqueezySubscriptionDTO()
@@ -263,6 +264,7 @@ func TestIntegration(t *testing.T) {
 		assert.Equal(t, "Active", lsData.StatusFormatted)
 		assert.Equal(t, 12345, lsData.ProductID)
 		assert.Equal(t, "Pro", lsData.ProductName)
+		assert.Equal(t, 0, lsData.EndsAt)
 	})
 
 	t.Run("check feature access for subscribed user", func(t *testing.T) {
@@ -296,6 +298,7 @@ func TestIntegration(t *testing.T) {
 		assert.Equal(t, false, result.HasSubscription)
 		assert.Equal(t, "free", result.Plan)
 		assert.Equal(t, []string{"dashboard"}, result.Features)
+		assert.Equal(t, 0, result.EndsAt)
 	})
 
 	t.Run("unauthorized with wrong api key", func(t *testing.T) {
