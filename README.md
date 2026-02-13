@@ -29,7 +29,7 @@ func main() {
 	}
 
 	// Check if a user has access to a feature
-	result, err := client.CheckAccess(context.Background(), grantsy.CheckAccessParams{
+	result, _, err := client.Check(context.Background(), grantsy.CheckParams{
 		UserID:  "user-123",
 		Feature: "premium-export",
 	})
@@ -41,76 +41,85 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Allowed:", result.Allowed)
+	fmt.Println("Allowed:", result.Data.Allowed)
 }
 ```
+
+All methods return `(*Result[T], *http.Response, error)`. The `Result` envelope contains `Data` (the parsed payload) and `Meta` (request ID, timestamp, API version). The `*http.Response` provides access to HTTP headers and status code.
 
 ### List Features
 
 ```go
-// List features available to a user
-features, err := client.ListFeatures(context.Background(), grantsy.ListFeaturesParams{
-	UserID: "user-123",
+result, _, err := client.Features.List(context.Background())
+if err != nil {
+	log.Fatal(err)
+}
+
+for _, f := range result.Data {
+	fmt.Printf("Feature: %s (%s)\n", f.Name, f.ID)
+}
+```
+
+### Get Feature
+
+```go
+result, _, err := client.Features.Get(context.Background(), grantsy.FeatureGetParams{
+	FeatureID: "dashboard",
 })
 if err != nil {
 	log.Fatal(err)
 }
 
-fmt.Println("Plan:", features.Plan)
-for _, f := range features.Features {
-	fmt.Println("Feature:", f)
-}
+fmt.Printf("Feature: %s (%s)\n", result.Data.Name, result.Data.ID)
 ```
 
 ### List Plans
 
 ```go
-// List available plans with feature details
-plans, err := client.ListPlans(context.Background(), grantsy.ListPlansParams{
-	Expand: "features",
+result, _, err := client.Plans.List(context.Background(), grantsy.PlanListParams{
+	Expand: []grantsy.PlansExpand{grantsy.PlansExpandFeatures},
 })
 if err != nil {
 	log.Fatal(err)
 }
 
-for _, p := range plans.Plans {
+for _, p := range result.Data {
 	fmt.Printf("Plan: %s (%s)\n", p.Name, p.ID)
-	for _, v := range p.Variants {
-		fmt.Printf("  Variant: %s - %s/%s\n", v.Name, v.Price, v.Interval)
+	for _, f := range p.Features {
+		fmt.Printf("  Feature: %s\n", f.Name)
 	}
 }
 ```
 
-### Get Subscription
+### Get User
 
 ```go
-// Get a user's subscription
-sub, err := client.GetSubscription(context.Background(), grantsy.GetSubscriptionParams{
+result, _, err := client.Users.Get(context.Background(), grantsy.UserGetParams{
 	UserID: "user-123",
+	Expand: []grantsy.UserExpand{
+		grantsy.UserExpandPlan,
+		grantsy.UserExpandFeatures,
+		grantsy.UserExpandSubscription,
+	},
 })
 if err != nil {
 	log.Fatal(err)
 }
 
-fmt.Println("Has subscription:", sub.HasSubscription)
-fmt.Println("Plan:", sub.Plan)
-fmt.Println("Status:", sub.Status)
-for _, f := range sub.Features {
-	fmt.Println("Feature:", f)
+fmt.Println("Plan:", result.Data.PlanID)
+for _, f := range result.Data.Features {
+	fmt.Println("Feature:", f.Name)
 }
 ```
 
 ### Raw Subscription Data
 
-Access provider-specific subscription details via the `Raw` field:
+Access provider-specific subscription details via the `Raw` field on a user's subscription:
 
 ```go
-if sub.HasSubscription && sub.Raw.Provider == grantsy.ProviderLemonSqueezy {
-	ls, err := sub.Raw.Data.AsLemonSqueezySubscriptionDTO()
-	if err != nil {
-		log.Fatal(err)
-	}
-
+sub := result.Data.Subscription
+if sub != nil && sub.Raw.Provider == grantsy.ProviderLemonSqueezy {
+	ls := sub.Raw.Data.LemonSqueezySubscription
 	fmt.Println("LemonSqueezy ID:", ls.ID)
 	fmt.Println("Product:", ls.ProductName)
 	fmt.Println("Status:", ls.StatusFormatted)

@@ -1,10 +1,4 @@
 package: api
 output: internal/api/api.gen.go
-generate:
+generation:
   client: true
-  models: true
-  embedded-spec: false
-output-options:
-  skip-prune: false
-  prefer-skip-optional-pointer: true
-  name-normalizer: ToCamelCaseWithInitialisms

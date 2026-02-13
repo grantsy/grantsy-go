@@ -10,6 +10,8 @@ tasks:
       - "curl -sSfL -H \"Cache-Control: no-cache\" {{.SPEC_URL}} -o openapi.json"
       - defer: rm -f openapi.json
       - go tool oapi-codegen --config oapi-codegen.yaml openapi.json
+      - go run ./internal/tools/strip-apply-defaults internal/api/api.gen.go
+      - go run ./internal/tools/fix-enum-fields internal/api/api.gen.go
       - go mod tidy
 
   test:
