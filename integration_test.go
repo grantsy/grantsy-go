@@ -90,6 +90,10 @@ func seedDB(t *testing.T, dbPath string) {
 		trial_ends_at        INTEGER,
 		billing_anchor       INTEGER NOT NULL DEFAULT 0,
 		subscription_item_id INTEGER NOT NULL DEFAULT 0,
+		price_id             INTEGER NOT NULL DEFAULT 0,
+		unit_price           INTEGER NOT NULL DEFAULT 0,
+		renewal_interval_unit TEXT NOT NULL DEFAULT '',
+		renewal_interval_quantity INTEGER NOT NULL DEFAULT 0,
 		renews_at            INTEGER NOT NULL DEFAULT 0,
 		ends_at              INTEGER,
 		created_at           INTEGER NOT NULL DEFAULT 0,
@@ -261,6 +265,10 @@ func assertProSubscription(t *testing.T, sub *grantsy.UserSubscription) {
 	assert.False(t, ls.Cancelled)
 	assert.Equal(t, 0, ls.BillingAnchor)
 	assert.Equal(t, 0, ls.SubscriptionItemID)
+	assert.Equal(t, 0, ls.PriceID)
+	assert.Equal(t, 0, ls.UnitPrice)
+	assert.Equal(t, "", ls.RenewalIntervalUnit)
+	assert.Equal(t, 0, ls.RenewalIntervalQuantity)
 	assert.True(t, ls.EndsAt.IsNull())
 	assert.True(t, ls.TrialEndsAt.IsNull())
 	assert.Greater(t, ls.RenewsAt, int64(0))
