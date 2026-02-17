@@ -500,7 +500,7 @@ type Variant struct {
 	// Variant display name
 	Name string `json:"name" form:"name"`
 	// Price in cents
-	Price any `json:"price" form:"price"`
+	Price int `json:"price" form:"price"`
 	// Display order
 	Sort int `json:"sort" form:"sort"`
 	// Trial billing interval
@@ -609,9 +609,9 @@ var openAPISpecJSON = []string{
 	"b8ktRGOg18ETxgdlr30WGR4RR9IbXELI1jp9uYSIxAJd9VPItRvjcq81S2WB1Al+bGv1p0yyao0O0ycH",
 	"V+hBFs3ktDVktdTZsLJxWTy3p2nbErH2OGIi5gH2jYo866o7Z0DNkjDd2rL1uHeyzGt3zL8z4KL9/Zse",
 	"m/4pyTBCNgAe6TK/JeyQ8CWgdM6sNT+bc+2EMetW/X/FwQY5hF5OjLpW5K26WdJEqLBmyDFS3xXXljrY",
-	"KwuCQBk45f/zWrN3Ie9m4POUbJ0sH1kU0luBftHGaVNRo3HGcqDiJCS4MU/6UCnbK9AQLoxP9xgUwHwq",
-	"247JssWE1XViiB0tfcVJ1qB5peBH+T91lboy7xq/kSRthE6+gySWW2W0ko7VhYEWoictfpJ9EcR/Ty8i",
-	"elr5MPkaiC0Sdy+lQgfoyf3/AwAA///rz+TXH3oAAA==",
+	"KwuCQBk4hX8va1FUE/Ju/j5Pd6Vz6SNrRnrr1y/adm0qWjbOlg7Uq4QEN+ZJmyple/0awoXx2SCDfpgP",
+	"bdspWrZYuLpODDGzpW9Ayfo3rxQ6Kf8jr1LT5l3jF5akfdLJV5TEcqtsWtLQujDQQvSkxU+y74n47+lF",
+	"RE8rHybfErFF4u6lVGgQPbn/fwAAAP//lbg7vz56AAA=",
 }
 
 // decodeOpenAPISpec decodes and decompresses the embedded spec.
