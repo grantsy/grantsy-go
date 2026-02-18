@@ -239,6 +239,7 @@ func assertProSubscription(t *testing.T, sub *grantsy.UserSubscription) {
 	t.Helper()
 
 	assert.Equal(t, "active", sub.Status)
+	assert.Equal(t, "pro", sub.PlanID)
 	assert.False(t, sub.Cancelled)
 	assert.True(t, sub.EndsAt.IsNull())
 	assert.False(t, sub.RenewsAt.IsNull())
