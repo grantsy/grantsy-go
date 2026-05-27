@@ -34,23 +34,24 @@ database:
   dsn: /data/grantsy.db
 entitlements:
   default_plan: free
+  default_language: en
   plans:
     - id: free
-      name: Free
+      name: { en: Free }
       features: [dashboard]
     - id: pro
-      name: Pro
+      name: { en: Pro }
       features: [dashboard, api, sso]
   features:
     - id: dashboard
-      name: Dashboard
-      description: Basic dashboard access
+      name: { en: Dashboard }
+      description: { en: Basic dashboard access }
     - id: api
-      name: API Access
-      description: REST API access
+      name: { en: API Access }
+      description: { en: REST API access }
     - id: sso
-      name: Single Sign-On
-      description: SSO integration
+      name: { en: Single Sign-On }
+      description: { en: SSO integration }
 auth:
   api_key: test-api-key
 providers:
@@ -598,7 +599,7 @@ func TestIntegration(t *testing.T) {
 	})
 
 	t.Run("Features.List", func(t *testing.T) {
-		result, _, err := c.Features.List(ctx)
+		result, _, err := c.Features.List(ctx, grantsy.FeatureListParams{})
 		require.NoError(t, err)
 		require.Len(t, result.Data, 3)
 

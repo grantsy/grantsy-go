@@ -8,9 +8,19 @@ import (
 	"github.com/grantsy/grantsy-go/internal/api"
 )
 
+// FeatureListParams contains the parameters for a Features.List call.
+type FeatureListParams struct {
+	// AcceptLanguage sets the Accept-Language request header, controlling the
+	// language of localized name/description fields. Empty uses the server default_language.
+	AcceptLanguage string
+}
+
 // FeatureGetParams contains the parameters for a Features.Get call.
 type FeatureGetParams struct {
 	FeatureID string
+	// AcceptLanguage sets the Accept-Language request header, controlling the
+	// language of localized name/description fields. Empty uses the server default_language.
+	AcceptLanguage string
 }
 
 // FeaturesService provides access to feature-related API endpoints.
@@ -19,8 +29,9 @@ type FeaturesService struct {
 }
 
 // List returns all available features.
-func (s *FeaturesService) List(ctx context.Context) (*Result[[]Feature], *http.Response, error) {
-	resp, err := s.inner.GetV1Features(ctx)
+func (s *FeaturesService) List(ctx context.Context, p FeatureListParams) (*Result[[]Feature], *http.Response, error) {
+	params := api.GetV1FeaturesParams{AcceptLanguage: optLang(p.AcceptLanguage)}
+	resp, err := s.inner.GetV1Features(ctx, &params)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -44,7 +55,8 @@ func (s *FeaturesService) List(ctx context.Context) (*Result[[]Feature], *http.R
 
 // Get returns a single feature by ID.
 func (s *FeaturesService) Get(ctx context.Context, p FeatureGetParams) (*Result[*Feature], *http.Response, error) {
-	resp, err := s.inner.GetV1FeaturesFeatureId(ctx, p.FeatureID)
+	params := api.GetV1FeaturesFeatureIdParams{AcceptLanguage: optLang(p.AcceptLanguage)}
+	resp, err := s.inner.GetV1FeaturesFeatureId(ctx, p.FeatureID, &params)
 	if err != nil {
 		return nil, nil, err
 	}

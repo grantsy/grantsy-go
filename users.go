@@ -12,6 +12,9 @@ import (
 type UserGetParams struct {
 	UserID string
 	Expand []UserExpand
+	// AcceptLanguage sets the Accept-Language request header, controlling the
+	// language of localized name/description fields. Empty uses the server default_language.
+	AcceptLanguage string
 }
 
 // UsersService provides access to user-related API endpoints.
@@ -25,7 +28,7 @@ type UsersService struct {
 //   - UserExpandFeatures: includes the user's available features
 //   - UserExpandSubscription: includes the user's subscription details
 func (s *UsersService) Get(ctx context.Context, p UserGetParams) (*Result[*UserResponse], *http.Response, error) {
-	params := api.GetV1UsersUserIdParams{}
+	params := api.GetV1UsersUserIdParams{AcceptLanguage: optLang(p.AcceptLanguage)}
 	if len(p.Expand) > 0 {
 		strs := make([]string, len(p.Expand))
 		for i, e := range p.Expand {

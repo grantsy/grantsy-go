@@ -58,6 +58,9 @@ type CheckParams struct {
 	UserID  string
 	Feature string
 	Expand  []CheckExpand
+	// AcceptLanguage sets the Accept-Language request header, controlling the
+	// language of localized name/description fields. Empty uses the server default_language.
+	AcceptLanguage string
 }
 
 // CheckExpand controls which fields are expanded in a Check response.
@@ -184,8 +187,9 @@ func New(baseURL, apiKey string, opts ...ClientOption) (*Client, error) {
 // Check checks if a user has access to a feature.
 func (c *Client) Check(ctx context.Context, p CheckParams) (*Result[*CheckResponse], *http.Response, error) {
 	params := api.GetV1CheckParams{
-		UserId:  &p.UserID,
-		Feature: &p.Feature,
+		UserId:         &p.UserID,
+		Feature:        &p.Feature,
+		AcceptLanguage: optLang(p.AcceptLanguage),
 	}
 	if len(p.Expand) > 0 {
 		expandStrs := make([]string, len(p.Expand))
@@ -210,6 +214,17 @@ func (c *Client) Check(ctx context.Context, p CheckParams) (*Result[*CheckRespon
 		Data: checkResponseFromAPI(result.Data),
 		Meta: result.Meta,
 	}, resp, nil
+}
+
+// optLang returns a pointer to lang for the Accept-Language header parameter,
+// or nil when lang is empty so no header is sent and the server uses its
+// configured default_language. The value is sent verbatim, so it may be a
+// single BCP-47 tag ("es", "en-US") or a full list ("es,en;q=0.8").
+func optLang(lang string) *string {
+	if lang == "" {
+		return nil
+	}
+	return &lang
 }
 
 // checkResponse inspects the HTTP response and returns an error if the

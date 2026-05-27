@@ -11,12 +11,18 @@ import (
 // PlanListParams contains the parameters for a Plans.List call.
 type PlanListParams struct {
 	Expand []PlansExpand
+	// AcceptLanguage sets the Accept-Language request header, controlling the
+	// language of localized name/description fields. Empty uses the server default_language.
+	AcceptLanguage string
 }
 
 // PlanGetParams contains the parameters for a Plans.Get call.
 type PlanGetParams struct {
 	PlanID string
 	Expand []PlanExpand
+	// AcceptLanguage sets the Accept-Language request header, controlling the
+	// language of localized name/description fields. Empty uses the server default_language.
+	AcceptLanguage string
 }
 
 // PlansService provides access to plan-related API endpoints.
@@ -28,7 +34,7 @@ type PlansService struct {
 // Optional expand values control which nested fields are populated
 // (e.g., PlansExpandFeatures to include each plan's features).
 func (s *PlansService) List(ctx context.Context, p PlanListParams) (*Result[[]Plan], *http.Response, error) {
-	params := api.GetV1PlansParams{}
+	params := api.GetV1PlansParams{AcceptLanguage: optLang(p.AcceptLanguage)}
 	if len(p.Expand) > 0 {
 		strs := make([]string, len(p.Expand))
 		for i, e := range p.Expand {
@@ -62,7 +68,7 @@ func (s *PlansService) List(ctx context.Context, p PlanListParams) (*Result[[]Pl
 // Optional expand values control which nested fields are populated
 // (e.g., PlanExpandFeatures to include the plan's features).
 func (s *PlansService) Get(ctx context.Context, p PlanGetParams) (*Result[*Plan], *http.Response, error) {
-	params := api.GetV1PlansPlanIdParams{}
+	params := api.GetV1PlansPlanIdParams{AcceptLanguage: optLang(p.AcceptLanguage)}
 	if len(p.Expand) > 0 {
 		strs := make([]string, len(p.Expand))
 		for i, e := range p.Expand {

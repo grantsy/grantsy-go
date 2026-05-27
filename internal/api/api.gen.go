@@ -573,56 +573,59 @@ type GetV1UsersUserID200Response struct {
 
 // Base64-encoded, gzip-compressed OpenAPI spec.
 var openAPISpecJSON = []string{
-	"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",
+	"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",
+	"AA==",
 }
 
 // decodeOpenAPISpec decodes and decompresses the embedded spec.
@@ -763,9 +766,9 @@ type ClientInterface interface {
 	// GetV1Check makes a GET request to /v1/check
 	GetV1Check(ctx context.Context, params *GetV1CheckParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 	// GetV1Features makes a GET request to /v1/features
-	GetV1Features(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+	GetV1Features(ctx context.Context, params *GetV1FeaturesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 	// GetV1FeaturesFeatureId makes a GET request to /v1/features/{feature_id}
-	GetV1FeaturesFeatureId(ctx context.Context, featureId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+	GetV1FeaturesFeatureId(ctx context.Context, featureId string, params *GetV1FeaturesFeatureIdParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 	// GetV1Plans makes a GET request to /v1/plans
 	GetV1Plans(ctx context.Context, params *GetV1PlansParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 	// GetV1PlansPlanId makes a GET request to /v1/plans/{plan_id}
@@ -782,24 +785,44 @@ type GetV1CheckParams struct {
 	Feature *string `form:"feature" json:"feature"`
 	// expand (optional)
 	Expand *[]string `form:"expand" json:"expand"`
+	// Accept-Language (header)
+	AcceptLanguage *string
+}
+
+// GetV1FeaturesParams defines parameters for GetV1Features.
+type GetV1FeaturesParams struct {
+	// Accept-Language (header)
+	AcceptLanguage *string
+}
+
+// GetV1FeaturesFeatureIdParams defines parameters for GetV1FeaturesFeatureId.
+type GetV1FeaturesFeatureIdParams struct {
+	// Accept-Language (header)
+	AcceptLanguage *string
 }
 
 // GetV1PlansParams defines parameters for GetV1Plans.
 type GetV1PlansParams struct {
 	// expand (optional)
 	Expand *[]string `form:"expand" json:"expand"`
+	// Accept-Language (header)
+	AcceptLanguage *string
 }
 
 // GetV1PlansPlanIdParams defines parameters for GetV1PlansPlanId.
 type GetV1PlansPlanIdParams struct {
 	// expand (optional)
 	Expand *[]string `form:"expand" json:"expand"`
+	// Accept-Language (header)
+	AcceptLanguage *string
 }
 
 // GetV1UsersUserIdParams defines parameters for GetV1UsersUserId.
 type GetV1UsersUserIdParams struct {
 	// expand (optional)
 	Expand *[]string `form:"expand" json:"expand"`
+	// Accept-Language (header)
+	AcceptLanguage *string
 }
 
 // GetV1Check makes a GET request to /v1/check
@@ -818,8 +841,8 @@ func (c *Client) GetV1Check(ctx context.Context, params *GetV1CheckParams, reqEd
 
 // GetV1Features makes a GET request to /v1/features
 // List all features
-func (c *Client) GetV1Features(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1FeaturesRequest(c.Server)
+func (c *Client) GetV1Features(ctx context.Context, params *GetV1FeaturesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1FeaturesRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -832,8 +855,8 @@ func (c *Client) GetV1Features(ctx context.Context, reqEditors ...RequestEditorF
 
 // GetV1FeaturesFeatureId makes a GET request to /v1/features/{feature_id}
 // Get feature by ID
-func (c *Client) GetV1FeaturesFeatureId(ctx context.Context, featureId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetV1FeaturesFeatureIdRequest(c.Server, featureId)
+func (c *Client) GetV1FeaturesFeatureId(ctx context.Context, featureId string, params *GetV1FeaturesFeatureIdParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetV1FeaturesFeatureIdRequest(c.Server, featureId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -954,11 +977,22 @@ func NewGetV1CheckRequest(server string, params *GetV1CheckParams) (*http.Reques
 		return nil, err
 	}
 
+	if params != nil {
+		if params.AcceptLanguage != nil {
+			var headerParam0 string
+			headerParam0, err = StyleSimpleParam("Accept-Language", ParamLocationHeader, *params.AcceptLanguage)
+			if err != nil {
+				return nil, err
+			}
+			req.Header.Set("Accept-Language", headerParam0)
+		}
+	}
+
 	return req, nil
 }
 
 // NewGetV1FeaturesRequest creates a GET request for /v1/features
-func NewGetV1FeaturesRequest(server string) (*http.Request, error) {
+func NewGetV1FeaturesRequest(server string, params *GetV1FeaturesParams) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -981,11 +1015,22 @@ func NewGetV1FeaturesRequest(server string) (*http.Request, error) {
 		return nil, err
 	}
 
+	if params != nil {
+		if params.AcceptLanguage != nil {
+			var headerParam0 string
+			headerParam0, err = StyleSimpleParam("Accept-Language", ParamLocationHeader, *params.AcceptLanguage)
+			if err != nil {
+				return nil, err
+			}
+			req.Header.Set("Accept-Language", headerParam0)
+		}
+	}
+
 	return req, nil
 }
 
 // NewGetV1FeaturesFeatureIdRequest creates a GET request for /v1/features/{feature_id}
-func NewGetV1FeaturesFeatureIdRequest(server string, featureId string) (*http.Request, error) {
+func NewGetV1FeaturesFeatureIdRequest(server string, featureId string, params *GetV1FeaturesFeatureIdParams) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -1012,6 +1057,17 @@ func NewGetV1FeaturesFeatureIdRequest(server string, featureId string) (*http.Re
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
 		return nil, err
+	}
+
+	if params != nil {
+		if params.AcceptLanguage != nil {
+			var headerParam0 string
+			headerParam0, err = StyleSimpleParam("Accept-Language", ParamLocationHeader, *params.AcceptLanguage)
+			if err != nil {
+				return nil, err
+			}
+			req.Header.Set("Accept-Language", headerParam0)
+		}
 	}
 
 	return req, nil
@@ -1057,6 +1113,17 @@ func NewGetV1PlansRequest(server string, params *GetV1PlansParams) (*http.Reques
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
 		return nil, err
+	}
+
+	if params != nil {
+		if params.AcceptLanguage != nil {
+			var headerParam0 string
+			headerParam0, err = StyleSimpleParam("Accept-Language", ParamLocationHeader, *params.AcceptLanguage)
+			if err != nil {
+				return nil, err
+			}
+			req.Header.Set("Accept-Language", headerParam0)
+		}
 	}
 
 	return req, nil
@@ -1110,6 +1177,17 @@ func NewGetV1PlansPlanIdRequest(server string, planId string, params *GetV1Plans
 		return nil, err
 	}
 
+	if params != nil {
+		if params.AcceptLanguage != nil {
+			var headerParam0 string
+			headerParam0, err = StyleSimpleParam("Accept-Language", ParamLocationHeader, *params.AcceptLanguage)
+			if err != nil {
+				return nil, err
+			}
+			req.Header.Set("Accept-Language", headerParam0)
+		}
+	}
+
 	return req, nil
 }
 
@@ -1159,6 +1237,17 @@ func NewGetV1UsersUserIdRequest(server string, userId string, params *GetV1Users
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
 	if err != nil {
 		return nil, err
+	}
+
+	if params != nil {
+		if params.AcceptLanguage != nil {
+			var headerParam0 string
+			headerParam0, err = StyleSimpleParam("Accept-Language", ParamLocationHeader, *params.AcceptLanguage)
+			if err != nil {
+				return nil, err
+			}
+			req.Header.Set("Accept-Language", headerParam0)
+		}
 	}
 
 	return req, nil

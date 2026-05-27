@@ -47,10 +47,27 @@ func main() {
 
 All methods return `(*Result[T], *http.Response, error)`. The `Result` envelope contains `Data` (the parsed payload) and `Meta` (request ID, timestamp, API version). The `*http.Response` provides access to HTTP headers and status code.
 
+### Localized name & description
+
+Plan and feature `Name`/`Description` are localized server-side. Set the `AcceptLanguage` field on any call's params to choose the language; it is sent as the `Accept-Language` header. The value may be a single BCP-47 tag (`"es"`, `"en-US"`) or a full list (`"es,en;q=0.8"`). When omitted, the server returns its configured `default_language`.
+
+```go
+result, _, err := client.Plans.List(context.Background(), grantsy.PlanListParams{
+	AcceptLanguage: "es",
+})
+if err != nil {
+	log.Fatal(err)
+}
+
+for _, p := range result.Data {
+	fmt.Printf("Plan: %s (%s)\n", p.Name, p.ID) // p.Name in Spanish
+}
+```
+
 ### List Features
 
 ```go
-result, _, err := client.Features.List(context.Background())
+result, _, err := client.Features.List(context.Background(), grantsy.FeatureListParams{})
 if err != nil {
 	log.Fatal(err)
 }
