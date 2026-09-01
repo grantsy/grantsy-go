@@ -144,6 +144,21 @@ if sub != nil && sub.Raw.Provider == grantsy.ProviderLemonSqueezy {
 }
 ```
 
+### Refunds
+
+A refunded subscription revokes access regardless of its status. `RefundedAt` is a
+`Nullable[int]` holding the Unix timestamp of the refund; `Get` returns an error when
+the field is null or absent:
+
+```go
+sub := result.Data.Subscription
+if sub != nil {
+	if ts, err := sub.RefundedAt.Get(); err == nil {
+		fmt.Println("Refunded at:", time.Unix(int64(ts), 0))
+	}
+}
+```
+
 ## Regenerating the SDK
 
 Requires [Task](https://taskfile.dev):
